@@ -1,31 +1,62 @@
-// Your apiRoutes.js file should contain two routes:
-// A GET route with the url /api/friends. This will be used to display a JSON of all possible friends.
-// A POST routes /api/friends. This will be used to handle incoming survey results. 
-// This route will also be used to handle the compatibility logic.
+const express = require('express'),
+    router = express.Router(),
+    app = express(),
+    { friendsArray, compareUser } = require('../data/friends.js');
 
-// app.get("/", function(req, res) {
-//     return res.sendFile(path.join(__dirname, "/app/public/index.html"));
-// });
+var bodyParser = require("body-parser");
+var path = require("path");
 
-// app.get("/survey", function(req, res) {
-//     return res.sendFile(path.join(__dirname, "/app/public/survey.html"));
-// });
+// Sets up the Express app to handle data parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.text());
+app.use(bodyParser.json({
+    type: "application/vnd.api+json"
+}));
 
-const { friendsArray } = require('./data/friends.js');
+router
+    .get("/friends", (req, res) => {
+        return res.json(friendsArray);
+    })
+    .post("/friends", (req, res) => {
+        friendsArray.push(req.body);
+        compareUser(friendsArray); 
+        return res.json(friendsArray);
+        return res.json(true);
+    });
 
 
+// const apiRoutes = (app, express) => {
+//     app.get("/api/friends", (req, res) => {
+//         console.log(friendsArray);
+//         return res.json(friendsArray);
+//     });
+//     app.post("/api/friends", (req, res) => {
+//         const results = req.body;
+//         console.log(`params: ${req}`);
+//         console.log(`results: ${JSON.stringify(results)}`);
+//         const newArray = [];
+//         friendsArray.push(newArray);
+//         const scoreDifference = [];
+//         const difference = friendsArray.map(item => {
+//             return item.scores;
+//         });
+//         console.log(`friends: ${friendsArray}`);
+//         const compareUser = () => {
+//             for (let i = 0; i < difference[0].length; i++) {
+//                 const scoreDifference = (Math.abs(difference[0][i] - difference[1][i]));
+//                 newArray.push(scoreDifference);
+//             }
+//             console.log(`scoreDifference: ${scoreDifference}`);
+//         };
+//         return res.json(true);
+//     });
+// }
+// 
+// module.exports = {
+//     apiRoutes: apiRoutes
+// }
 
-export app.get("/api/friends", (req, res) => {
-    console.log(friendsArray);
-    return res.json(friendsArray);
-});
-
-export app.post("/api/friends", (req, res) => {
-    const results = req.body;
-    console.log(`params: ${req}`);
-    console.log(`results: ${JSON.stringify(results)}`);
-    friendsArray.push(results);
-    console.log(`friends: ${friendsArray}`);
-    return res.json(true);
-});
-
+module.exports = router;

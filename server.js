@@ -2,7 +2,8 @@ const express = require('express');
 const body = require('body-parser');
 const path = require('path');
 const { htmlRoutes } = require('./app/routing/htmlRoutes.js');
-const apiRoutes = require('.app/routing/apiRoutes.js');
+const api = require('./app/routing/apiRoutes.js');
+
 
 const app = express();
 const PORT = 3000;
@@ -18,9 +19,10 @@ app.use(body.json({
     type: "application/vnd.api+json"
 }));
 
+app.use('/api/', api); 
+
 app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
 });
 
 htmlRoutes(app, express);
-
