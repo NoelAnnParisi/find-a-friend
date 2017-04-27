@@ -1,6 +1,6 @@
 const friendsArray = [{
     "name": "Ahmed",
-    "photo": "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+    "photo": "https://cdn.pixabay.com/photo/2017/04/05/10/28/mouse-2204576_960_720.jpg",
     "scores": [
         2,
         2,
@@ -15,7 +15,7 @@ const friendsArray = [{
     ]
 },{
     "name": "George",
-    "photo": "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+    "photo": "https://cdn.pixabay.com/photo/2016/05/23/23/32/human-1411499_960_720.jpg",
     "scores": [
         1,
         1,
@@ -31,7 +31,7 @@ const friendsArray = [{
 },
 {
     "name": "Nikki",
-    "photo": "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+    "photo": "https://cdn.pixabay.com/photo/2015/04/17/09/36/domestic-cat-726989__340.jpg",
     "scores": [
         1,
         1,
@@ -53,29 +53,39 @@ function add(auguend, addend) {
 }
 
 function compareUser(friendsArr) {
+  
   const suitors = []; 
   let suitor; 
+
   if (friendsArr.length > 1) {
     const scores = friendsArr.map(item => {
       return item.scores;
     });
+
     const minuend = scores.splice(scores.length - 1, 1)[0].reduce(add, 0);
-    console.log(`minuend: ${minuend}`);
+    
     for (let i = 0; i < scores.length; i++) {
       subtrahend = scores[i].reduce(add, 0);
       suitors.push(Math.abs(minuend - subtrahend)); 
     }
+
     let suitor = suitors[0]; 
+    
     for (let i = 1; i < suitors.length; i++) {
       let candidate = suitors[i]
       if (suitor > candidate) {
         suitor = candidate; 
       }
     }
-    let matchName = friendsArray[suitors.indexOf(suitor)].name;
-    console.log(matchName);
-    return matchName;
+
+    const match = {
+    	name: friendsArray[suitors.indexOf(suitor)].name,
+    	image: friendsArray[suitors.indexOf(suitor)].photo
+    };
+
+    return match;
   }
+  // should be returning error here
   return; 
 }
 

@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey</title>
-    <link rel="stylesheet" type="text/css" href="./app/assets/css/normalize.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href=".app/assets/css/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../app/assets/css/normalize.css"> -->
+    <!--     <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
 </head>
 
 <body>
@@ -149,7 +149,7 @@
                 </div>
                 <div class="modal-body">
                     <h2 id="matchName"></h2>
-                    <img id="matchImg" src="#" alt="placeholder">
+                    <img id="matchImg" src="" alt="placeholder">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -159,21 +159,22 @@
     </div>
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./app/routing/apiRoutes.js"></script>
     <script type="text/javascript">
     $("#submit").on("click", function() {
 
         const friendData = {
             name: $("#name").val(),
             photo: $("#photo").val(),
-            scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()]
-        }
-        const currentURL = window.location.origin;
-        $.post(currentURL + "/api/friends", friendData, function(data) {
-            console.log('maybe!');
-            console.log(matchName);
-            $("#matchName").text(matchName);
-            $('#matchImg').attr("src", matchPhoto);
+            scores: [
+                $("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(),
+                $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()
+            ]
+        };
+
+        $.post("/api/friends", friendData, data => {
+            console.log(data); 
+            $("#matchName").text(data.name);
+            $('#matchImg').attr("src", data.image);
             $("#resultsModal").modal('toggle');
 
         });

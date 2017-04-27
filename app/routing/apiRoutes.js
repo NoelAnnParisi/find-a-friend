@@ -22,41 +22,7 @@ router
     })
     .post("/friends", (req, res) => {
         friendsArray.push(req.body);
-        compareUser(friendsArray); 
-        return res.json(friendsArray);
-        return res.json(true);
+        return res.json(compareUser(friendsArray));
     });
-
-
-// const apiRoutes = (app, express) => {
-//     app.get("/api/friends", (req, res) => {
-//         console.log(friendsArray);
-//         return res.json(friendsArray);
-//     });
-//     app.post("/api/friends", (req, res) => {
-//         const results = req.body;
-//         console.log(`params: ${req}`);
-//         console.log(`results: ${JSON.stringify(results)}`);
-//         const newArray = [];
-//         friendsArray.push(newArray);
-//         const scoreDifference = [];
-//         const difference = friendsArray.map(item => {
-//             return item.scores;
-//         });
-//         console.log(`friends: ${friendsArray}`);
-//         const compareUser = () => {
-//             for (let i = 0; i < difference[0].length; i++) {
-//                 const scoreDifference = (Math.abs(difference[0][i] - difference[1][i]));
-//                 newArray.push(scoreDifference);
-//             }
-//             console.log(`scoreDifference: ${scoreDifference}`);
-//         };
-//         return res.json(true);
-//     });
-// }
-// 
-// module.exports = {
-//     apiRoutes: apiRoutes
-// }
-
+    
 module.exports = router;
