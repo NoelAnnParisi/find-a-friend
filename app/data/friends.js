@@ -1,6 +1,6 @@
 const friendsArray = [{
     "name": "Ahmed",
-    "photo": "https://cdn.pixabay.com/photo/2017/04/05/10/28/mouse-2204576_960_720.jpg",
+    "photo": "https://cdn.pixabay.com/photo/2014/12/17/00/21/turkey-570935__340.jpg",
     "scores": [
         2,
         2,
@@ -15,7 +15,7 @@ const friendsArray = [{
     ]
 },{
     "name": "George",
-    "photo": "https://cdn.pixabay.com/photo/2016/05/23/23/32/human-1411499_960_720.jpg",
+    "photo": "https://cdn.pixabay.com/photo/2014/04/03/10/32/businessman-310819__340.png",
     "scores": [
         1,
         1,
