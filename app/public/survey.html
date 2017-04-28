@@ -6,8 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
     <!-- <link rel="stylesheet" type="text/css" href="../app/assets/css/normalize.css"> -->
     <!--     <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
+    <style type="text/css">
+        img {
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            height: 350px;
+            width: 300px;
+        }
+    </style>
 </head>
 
 <body>
@@ -63,7 +73,7 @@
                         <option value="5">5 (Strongly Agree)</option>
                     </select>
                 </p>
-                <h3>Do you like group settings or one-on-one interactions?</h3>
+                <h3>Do you like group settings?</h3>
                 <p>
                     <select data-placeholder="" class="chosen-select" id="q5">
                         <option value=""></option>
@@ -158,28 +168,69 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script type="text/javascript">
+    var config = {
+        '.chosen-select': {},
+        '.chosen-select-deselect': {
+            allow_single_deselect: true
+        },
+        '.chosen-select-no-single': {
+            disable_search_threshold: 10
+        },
+        '.chosen-select-no-results': {
+            no_results_text: 'Oops, nothing found!'
+        },
+        '.chosen-select-width': {
+            width: "95%"
+        }
+    }
+    for (var selector in config) {
+        $(selector).chosen(config[selector]);
+    }
     $("#submit").on("click", function() {
+        const validateForm = () => {
+            let isValid = true;
+            $('.form-control').each(function() {
+                if ($(this).val() === '')
+                    isValid = false;
+            });
 
-        const friendData = {
-            name: $("#name").val(),
-            photo: $("#photo").val(),
-            scores: [
-                $("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(),
-                $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()
-            ]
-        };
+            $('.chosen-select').each(function() {
 
-        $.post("/api/friends", friendData, data => {
-            console.log(data); 
-            $("#matchName").text(data.name);
-            $('#matchImg').attr("src", data.image);
+                if ($(this).val() === "")
+                    isValid = false
+            })
+            return isValid;
+        }
+
+        // If all required fields are filled
+        if (validateForm() == true) {
+
+            const friendData = {
+                name: $("#name").val(),
+                photo: $("#photo").val(),
+                scores: [
+                    $("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(),
+                    $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()
+                ]
+            };
+
+            $.post("/api/friends", friendData, data => {
+                console.log(data);
+                $("#matchName").text(data.name);
+                $('#matchImg').attr("src", data.image);
+                $("#resultsModal").modal('toggle');
+
+            });
+
+            return true;
+        } else {
             $("#resultsModal").modal('toggle');
-
-        });
-
-        return true;
+            $("#matchName").text("Please fill out the entire survey!");
+            $('#matchImg').attr("src", 'https://images.pexels.com/photos/300123/pexels-photo-300123.jpeg?w=940&h=650&auto=compress&cs=tinysrgb');
+        }
     });
     </script>
 </body>
