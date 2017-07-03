@@ -53,10 +53,8 @@ function add(auguend, addend) {
 }
 
 function compareUser(friendsArr) {
-  
+  // 
   const suitors = []; 
-  let suitor; 
-
   if (friendsArr.length > 1) {
     const scores = friendsArr.map(item => {
       return item.scores;
