@@ -7,3 +7,5 @@ Determine whether your compatible with any of the suitors in the database!
 * Bootstrap
 * Express.js
 
+### ToDo: 
+* Deploy
